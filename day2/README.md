@@ -54,9 +54,16 @@ In this section, you should get more familiar with code profiling, in particular
 #### a. Investigate the performance of the ```matmult.py``` script
 In which line(s) of the script would you start optimizing for speed? Which line(s) create the most memory?
 
+- After modifying the code in `matmult.py` so that different parts of the code can be profiled, it is clear that calculating result matrix is a bottleneck in the script, w.r.t. run time. The single operations does not require a lot of computation, but within the inner loop, they are called more than N^3 times, which makes the script scale badly. If we want to keep the nested loot implementation, this call for optimization using parallelism, which would be straight-forward, as the cells of the result matrix are calculated independently. Or, we could use a built-in function from the numpy package.
+- I was not able to get results from memory profiling, as running `python -m memory_profiler matmult.py` seems to get stuck when profiling creating the result matrix.
+
 #### b. Investigate the performance of the ```euler72.py``` script
 In which line(s) of the script would you start optimizing for speed? Which line(s) create the most memory?
 (This is one problem from the euler project: [https://projecteuler.net/problem=72](https://projecteuler.net/problem=72))
 
+- Calculating phi has already been optimized with the function `fast_phi`, which takes shorter than a second to run, compared to the old function `phi`, which took over 15 seconds.
+- The line that used the most memory is the initiation of the primes.
+
 #### c. Improve the performance of the ```matmult.py``` script
 What is the best performance that you achieved with N=250?
+- Using numpy to calculate the matrix multiplication took less than a second, compared to the nested calculation, which took over 10 seconds.
